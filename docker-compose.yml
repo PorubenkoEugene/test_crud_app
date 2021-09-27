@@ -1,0 +1,27 @@
+version: '3.1'
+services:
+  api:
+    build: ./docker/api
+    ports:
+     - "3000:3000"
+     - "9229:9229"
+    depends_on:
+     - db
+    environment:
+     - DB_HOST=db
+     - DB_USER=root
+     - DB_PASS=root
+     - DB_NAME=test_crud_db
+     - DB_DIALECT=mysql
+     - DB_PORT=3306
+     - APP_HOST=localhost
+     - APP_PORT=3000
+     - SECRET=adasxovnklnqklnkjdsankdnw
+    volumes:
+     - .:/api
+  db:
+    build: ./docker/db
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    ports:
+      - 3306:3306
